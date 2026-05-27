@@ -1,0 +1,12 @@
+﻿services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_VENTAS_URL: http://10.0.132.241:8080
+        VITE_API_DESPACHOS_URL: http://10.0.132.241:8081
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
