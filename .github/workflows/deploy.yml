@@ -33,13 +33,15 @@ jobs:
           DOCKER_PWD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USR: ${{ secrets.DOCKER_USERNAME }}
         run: |
+          IMAGE="danibetancourt/front-despacho"
+          TAG="${IMAGE_TAG}"
           COMMAND="#!/bin/bash
           set -e
           echo \"${DOCKER_PWD}\" | docker login -u \"${DOCKER_USR}\" --password-stdin
-          docker pull danibetancourt/front-despacho:${IMAGE_TAG}
+          docker pull ${IMAGE}:${TAG}
           docker stop frontend 2>/dev/null || true
           docker rm frontend 2>/dev/null || true
-          docker run -d --name frontend -p 80:80 danibetancourt/front-despacho:${IMAGE_TAG}"
+          docker run -d --name frontend -p 80:80 ${IMAGE}:${TAG}"
           aws ssm send-command \
             --instance-ids "$EC2_INSTANCE_ID" \
             --document-name AWS-RunShellScript \
